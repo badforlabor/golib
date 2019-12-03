@@ -4,7 +4,7 @@
  * Comment: 库中应用到的日志
  */
 
-package log
+package ultralog
 
 import (
 	"fmt"

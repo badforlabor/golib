@@ -4,10 +4,10 @@
  * Comment: 文件
  */
 
-package io
+package ultraio
 
 import (
-	"golib/log"
+	"golib/ultralog"
 	"os"
 )
 
@@ -16,10 +16,10 @@ func AppendFile(filename string, text string) {
 	f, err := os.OpenFile(filename,
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		log.Println(err)
+		ultralog.Println(err)
 	}
 	defer f.Close()
 	if _, err := f.WriteString(text); err != nil {
-		log.Println(err)
+		ultralog.Println(err)
 	}
 }
