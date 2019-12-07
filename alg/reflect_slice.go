@@ -1,11 +1,10 @@
 /**
  * Auth :   liubo
  * Date :   2019/12/3 16:10
- * Comment: 各种反射的应用
+ * Comment: Slice的扩展函数，以Slice开头
  */
 
 package alg
-
 
 import "reflect"
 
@@ -60,6 +59,14 @@ func SetSliceValue(src []interface{}, dst interface{}) {
 	}
 }
 
+// 查找
+func SliceFind(dataList interface{}, compare func(d interface{})bool) int {
+	return Find(dataList, compare)
+}
+func SliceContain(dataList interface{}, compare func(d interface{})bool) bool {
+	return Find(dataList, compare) != -1
+}
+
 // 删除
 func SliceRemoveAt(dataList interface{}, idx int) {
 	mustPtr(dataList)
@@ -80,11 +87,24 @@ func SliceRemoveAt(dataList interface{}, idx int) {
 	//s.SetLen(s.Len() - 1)
 	s.SetLen(s.Len() - 1)
 }
+func SliceRemoveOne(dataList interface{}, compare func(d interface{})bool) {
+	idx := Find(dataList, compare)
+	if idx >= 0 {
+		SliceRemoveAt(dataList, idx)
+	}
+}
 
+// 增加
 func SliceAddOne(dataList, one interface{}) {
 	mustPtr(dataList)
 
 	SliceInsertOne(dataList, -1, one)
+}
+func SliceAddUnique(dataList, data interface{}, compare func(d interface{})bool) {
+	if Contain(dataList, compare) {
+		return
+	}
+	SliceAddOne(dataList, data)
 }
 func SliceInsertOne(dataList interface{}, idx int, one interface{}) {
 	mustPtr(dataList)
@@ -111,16 +131,4 @@ func SliceInsertOne(dataList interface{}, idx int, one interface{}) {
 		}
 	}
 	s.Index(idx).Set(reflect.ValueOf(one))
-}
-func EraseOne(dataList interface{}, compare func(d interface{})bool) {
-	idx := Find(dataList, compare)
-	if idx >= 0 {
-		SliceRemoveAt(dataList, idx)
-	}
-}
-func AddUniqueOne(dataList, data interface{}, compare func(d interface{})bool) {
-	if Contain(dataList, compare) {
-		return
-	}
-	SliceAddOne(dataList, data)
 }
