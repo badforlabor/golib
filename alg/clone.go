@@ -21,8 +21,8 @@ func Clone(dst, src interface{}) {
 }
 func cloneSlice(dst, src interface{}) {
 	s := reflectSlice(src)
-	dstValue := reflect.ValueOf(dst)
+	dstValue := reflect.ValueOf(dst).Elem()
 
-	dstValue.Elem().Set(reflect.MakeSlice(s.Type(), s.Len(), s.Cap()))
+	dstValue.Set(reflect.MakeSlice(s.Type(), s.Len(), s.Cap()))
 	reflect.Copy(dstValue, s)
 }

@@ -40,14 +40,6 @@ func TestSlice1(t *testing.T) {
 	}
 }
 
-func (self *TestObject) Compare() func(d interface{})bool {
-	var function = func(d interface{})bool {
-		var aa = d.(TestObject)
-		return *self == aa
-	}
-	return function
-}
-
 func TestSlice2(t *testing.T) {
 	var datalist []TestObject
 	for i:=0; i<6; i++ {
@@ -84,6 +76,23 @@ func TestSlice2(t *testing.T) {
 	assert.Equal(t, idx, -1)
 }
 
+func TestSlice3(t *testing.T) {
+	{
+		var datalist = []int{0,1,2,3,4,5}
+		SliceInverse(datalist)
+		for i:=0; i<len(datalist); i++ {
+			assert.Equal(t, i, datalist[len(datalist)-1-i])
+		}
+	}
+	{
+		var datalist = []int{0,1,2,3,4}
+		SliceInverse(datalist)
+		for i:=0; i<len(datalist); i++ {
+			assert.Equal(t, i, datalist[len(datalist)-1-i])
+		}
+	}
+}
+
 type TestObjectInt struct {
 	A int
 }
@@ -92,4 +101,11 @@ type TestObject struct {
 	B float32
 	C string
 	D *TestObjectInt
+}
+func (self *TestObject) Compare() func(d interface{})bool {
+	var function = func(d interface{})bool {
+		var aa = d.(TestObject)
+		return *self == aa
+	}
+	return function
 }

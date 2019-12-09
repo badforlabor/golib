@@ -132,3 +132,17 @@ func SliceInsertOne(dataList interface{}, idx int, one interface{}) {
 	}
 	s.Index(idx).Set(reflect.ValueOf(one))
 }
+
+// 反转过来
+func SliceInverse(datalist interface{}) {
+	//mustPtr(datalist)
+	s := reflectSlice(datalist)
+	mid := s.Len() / 2
+	for i:=0; i<mid; i++ {
+		j := s.Len() - 1 - i
+
+		x, y := s.Index(i).Interface(), s.Index(j).Interface()
+		s.Index(i).Set(reflect.ValueOf(y))
+		s.Index(j).Set(reflect.ValueOf(x))
+	}
+}
